@@ -41,11 +41,12 @@ class Store {
   /**
    * Добавление новой записи
    */
-  addItem() {
+  addItem() {    
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
+      list: [...this.state.list, {code: sessionStorage.getItem('id'), title: 'Новая запись'}]
     })
+    sessionStorage.setItem('id', Number(sessionStorage.getItem('id'))+1); //при добавлении элементаувеличиваем идентификатор в хранилище
   };
 
   /**
@@ -57,6 +58,7 @@ class Store {
       ...this.state,
       list: this.state.list.filter(item => item.code !== code)
     })
+    sessionStorage.setItem('id', Number(sessionStorage.getItem('id'))+1); //при удалении увеличиваем идентификатор
   };
 
   /**
@@ -73,7 +75,7 @@ class Store {
         return item;
       })
     })
-  }
+  }  
 }
 
 export default Store;
