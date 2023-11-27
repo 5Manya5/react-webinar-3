@@ -1,6 +1,7 @@
 /**
  * Хранилище состояния приложения
- */
+ */ 
+
 class Store {
   constructor(initState = {}) {
     this.state = initState;
@@ -41,12 +42,13 @@ class Store {
   /**
    * Добавление новой записи
    */
-  addItem() {    
+  addItem() {  
+    const newCode = Number(sessionStorage.getItem('code')) + 1; //задача 2: получение кода из хранилища сессии и увеличение его значения на единицу
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: sessionStorage.getItem('id'), title: 'Новая запись'}]
+      list: [...this.state.list, {code: newCode, title: 'Новая запись', count:0}] //полученное значение является кодом нового элемента
     })
-    sessionStorage.setItem('id', Number(sessionStorage.getItem('id'))+1); //при добавлении элементаувеличиваем идентификатор в хранилище
+    sessionStorage.setItem('code', JSON.stringify(newCode)); //добавление нового последнего значения кода в хранилище сессии
   };
 
   /**
@@ -57,8 +59,7 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.filter(item => item.code !== code)
-    })
-    sessionStorage.setItem('id', Number(sessionStorage.getItem('id'))+1); //при удалении увеличиваем идентификатор
+    })    
   };
 
   /**
@@ -71,6 +72,7 @@ class Store {
       list: this.state.list.map(item => {
         if (item.code === code) {
           item.selected = !item.selected;
+          item.count = item.selected ? item.count + 1 : item.count; // задание 3: увеличение счетчика при выделении элемента
         }
         return item;
       })

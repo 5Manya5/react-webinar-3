@@ -15,7 +15,8 @@ const store = new Store({
     {code: 7, title: 'Седьмая запись', count:0},
   ]
 });
-
+sessionStorage.setItem('code', JSON.stringify(store.state.list.length)); //задача 2: добавление длины массива в хранилище сессии
+ 
 const root = createRoot(document.getElementById('root'));
 
 store.subscribe(() => {
